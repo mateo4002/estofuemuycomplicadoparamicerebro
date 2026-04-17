@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti</title>
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #0b0e14; 
+            color: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            text-align: center; 
+        }
+        .container { width: 90%; max-width: 600px; }
+        h1 { color: #f0abfc; margin-bottom: 25px; text-shadow: 0 0 10px rgba(240, 171, 252, 0.3); }
+        .video-box { 
+            width: 100%; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            background: #000;
+        }
+        video { width: 100%; display: block; }
+        
+        /* Panel del editor */
+        #editor { 
+            background: #1a202c; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-top: 30px; 
+            border: 1px solid #2d3748;
+        }
+        input { 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: none; 
+            width: 80%; 
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        button { 
+            padding: 12px 25px; 
+            background: #f0abfc; 
+            color: #1a202c; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .hidden { display: none !important; }
+        #resultado-link { 
+            margin-top: 15px; 
+            font-size: 13px; 
+            color: #9ca3af; 
+            word-break: break-all;
+            background: #0b0e14;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="texto">¡Tengo una sorpresa!</h1>
+        
+        <div class="video-box">
+            <video id="vid" controls>
+                <source src="https://drive.google.com/uc?id=1cZfr1s78Pt3DvVKRpGKmZ-Hfp_QrfGYV" type="video/mp4">
+                Tu navegador no soporta el video.
+            </video>
+        </div>
+
+        <div id="editor">
+            <p style="margin-top:0">1. Escribe el mensaje personalizado:</p>
+            <input type="text" id="inputMsg" placeholder="Ej: ¡Feliz aniversario!">
+            <br>
+            <button onclick="generar()">2. Crear Link de Regalo</button>
+            <div id="area-resultado" class="hidden">
+                <p>Copia y envía este link:</p>
+                <div id="resultado-link"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Detectar si el link ya trae un mensaje
+        const params = new URLSearchParams(window.location.search);
+        const msg = params.get('msg');
+        if (msg) {
+            document.getElementById('texto').innerText = msg;
+            document.getElementById('editor').classList.add('hidden');
+        }
+
+        // Función para crear el link final
+        function generar() {
+            const txt = document.getElementById('inputMsg').value;
+            if(!txt) return alert("Escribe un mensaje primero");
+            
+            const linkBase = window.location.href.split('?')[0];
+            const linkFinal = linkBase + "?msg=" + encodeURIComponent(txt);
+            
+            document.getElementById('area-resultado').classList.remove('hidden');
+            document.getElementById('resultado-link').innerText = linkFinal;
+        }
+    </script>
+</body>
+</html>
